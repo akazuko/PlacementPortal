@@ -1,0 +1,6 @@
+{
+  "username": "placement", 
+  "host": "localhost", 
+  "password": "placement",
+  "db": "placement"
+}
