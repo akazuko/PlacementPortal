@@ -1,7 +1,11 @@
-from mongoengine import Document
+from mongoengine import StringField, IntField, FloatField, ListField
 
-class Company(Document):
+from api_base_model import APIBaseModel
+
+class Company(APIBaseModel):
     """
     Model that defines a company
     """
-    pass
+    name = StringField(required=True)
+    location = StringField()
+    description = StringField(required=True)

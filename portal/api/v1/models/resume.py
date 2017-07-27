@@ -1,7 +1,8 @@
-from mongoengine import Document
+from mongoengine import StringField, IntField, FloatField, ListField
+from api_base_model import APIBaseModel
 
-class Resume(Document):
+class Resume(APIBaseModel):
     """
     Model that defines the Resume.
     """
-    pass
+    studentid = StringField()
