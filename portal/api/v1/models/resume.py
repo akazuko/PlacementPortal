@@ -5,4 +5,4 @@ class Resume(APIBaseModel):
     """
     Model that defines the Resume.
     """
-    student_id = StringField()
+    student_id = StringField(required=True)

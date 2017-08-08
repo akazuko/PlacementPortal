@@ -1,9 +1,10 @@
 import json
 
-from django.http import HttpResponse
-from django.views import View
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
-class APIBaseView(View):
+class APIBaseView(APIView):
     """
     Base API View.
     """
@@ -12,84 +13,52 @@ class APIBaseView(View):
         'abstract': True
     }
 
-    def _base_get(self, cls, **kwargs):
+    model_cls = None
+    serializer_cls = None
+
+    def get(self, request, **kwargs):
         key = kwargs.get('key', None)
 
         if key:
-            result = cls.find(key=key, value=kwargs['value'])
+            result = self.model_cls.find(key=key, value=kwargs['value'])
         else:
-            result = cls.find()
+            result = self.model_cls.find()
         result = [json.loads(res.to_json()) for res in result]
-        return HttpResponse(json.dumps(result, indent=2))
+        serializer = self.serializer_cls(result, many=True)
+        return Response(serializer.data)
 
-    def _base_post(self, request, model_class):
-        # convert the data to utf-8 format and the load the json.
-        data = json.loads(request.body.decode('utf-8'))
-        obj = model_class()
+    def post(self, request):
+        serializer = self.serializer_cls(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # allow only data with the correct and valid keys to go through.
-        for key in data:
-            try:
-                getattr(obj, str(key))
-                setattr(obj, str(key), data[key])
-            except:
-                return HttpResponse("Wrong key: {key} provided".format(key=key),
-                                    status=500)
-
-        # above we checked for the right keys, this check ensures the correct
-        # data -type for each key/field.
-        try:
-            obj.save()
-        except:
-            return HttpResponse("Please verify the input type for each field "
-                                "properly".format(key=key), status=500)
-        return HttpResponse("Data successfully added", status=200)
-
-    def _base_delete(self, request, key, value, model_class):
+    def delete(self, request, key, value):
         if key != 'id':
-            return HttpResponse("Correct usage : [DELETE] /api/v1/%s/id=$oid" %(repr(model_class)),
-                                status=500)
+            return Response(data='usage: [DELETE] /api/v1/%s/id=$oid" %(repr(self))',
+                            status=status.HTTP_400_BAD_REQUEST)
         try:
-            obj = model_class.objects(id=value)
+            obj = self.model_cls.objects(id=value)
             obj.delete()
         except:
-            return HttpResponse("Valid student $oid is not provided",
-                                status=500)
-        return HttpResponse("Data successfully deleted", status=200)
+            return Response(data="Valid student $oid is not provided", status=status.HTTP_400_BAD_REQUEST)
+        return Response(data="Data successfully deleted", status=status.HTTP_200_OK)
 
-    def _base_put(self, request, key, value, model_class):
+    def put(self, request, key, value):
         if key != 'id':
-            return HttpResponse("Correct usage : [PUT] /api/v1/%s/id=$oid" %(repr(model_class)),
-                                status=500)
+            return Response(data="Correct usage : [PUT] /api/v1/%s/id=$oid" %(repr(self)),
+                            status=status.HTTP_400_BAD_REQUEST)
         try:
-            data = json.loads(request.body.decode('utf-8'))
-            if '_id' in data:
-                id = data.pop('_id')
-            elif 'id' in data:
-                id = data.pop('id')
-
             # get the required object
-            obj = model_class.objects(id=value)
+            obj = self.model_cls.objects(id=value)
 
-            # allow only data with the correct and valid keys to go through.
-            for key in data:
-                try:
-                    getattr(obj, str(key))
-                    setattr(obj, str(key), data[key])
-                except:
-                    return HttpResponse(
-                        "Wrong key: {key} provided".format(key=key),
-                        status=500)
-
-            # above we checked for the right keys, this check ensures the correct
-            # data -type for each key/field.
-            try:
-                obj.save()
-            except:
-                return HttpResponse(
-                    "Please verify the input type for each field "
-                    "properly".format(key=key), status=500)
+            # here we get the list as result, but we need only the object
+            obj = obj[0]
         except:
-            return HttpResponse("Valid %s $oid is not provided" %(repr(model_class)),
-                                status=500)
-        return HttpResponse("Data successfully updated.", status=200)
+            return Response(data="Invalid id provided", status=status.HTTP_400_BAD_REQUEST)
+        serializer = self.serializer_cls(obj, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

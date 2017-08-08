@@ -16,11 +16,11 @@ class Student(APIBaseModel):
     score = FloatField(required=True)
 
     # object IDs of the resume are referenced
-    resume = ListField()
+    resume = ListField(required=False)
 
     # object IDs of companies are referenced
-    company_eligible_for = ListField()
+    company_eligible_for = ListField(required=False)
 
     # this has the following structure : {'_id': <>, 'name': <>, 'status': <>}
     # status allows us to capture if the student is placed/in-progress
-    company_applied_for = ListField()
+    company_applied_for = ListField(required=False)

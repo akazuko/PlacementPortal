@@ -8,9 +8,9 @@ app_name = 'api.v1'
 
 urlpatterns = [
     url(r'^student/$', StudentView.as_view()),
-    url(r'^student/(?P<key>[a-z0-9]+)=(?P<value>[a-z0-9]+)$', StudentView.as_view()),
+    url(r'^student/(?P<key>\w+)=(?P<value>\w+)$', StudentView.as_view()),
     url(r'^company/$', CompanyView.as_view()),
-    url(r'^company/(?P<key>[a-z0-9]+)=(?P<value>[a-z0-9]+)$', CompanyView.as_view()),
+    url(r'^company/(?P<key>\w+)=(?P<value>\w+)$', CompanyView.as_view()),
     url(r'^resume/$', ResumeView.as_view()),
-    url(r'^resume/(?P<key>[a-z0-9]+)=(?P<value>[a-z0-9]+)$', ResumeView.as_view())
+    url(r'^resume/(?P<key>\w+)=(?P<value>\w+)$', ResumeView.as_view())
 ]

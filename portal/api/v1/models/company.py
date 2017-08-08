@@ -7,5 +7,5 @@ class Company(APIBaseModel):
     Model that defines a company
     """
     name = StringField(required=True)
-    location = StringField()
+    location = StringField(required=False)
     description = StringField(required=True)
