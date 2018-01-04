@@ -1,0 +1,23 @@
+version: "2"
+
+services:
+  db:
+    image: mongo
+    restart: "always"
+    ports:
+      - 27017:27017
+    volumes:
+      - /home/ayush/git_repos/PlacementPortal/data_portal:/data/db
+
+  web_server:
+    build:
+      context: ./portal_image
+    image: portal_server:1.0
+    depends_on:
+      - db
+    restart: "always"
+    ports:
+      - 8000:8000
+    volumes:
+      - /home/ayush/git_repos/PlacementPortal/portal:/portal
+      - /home/ayush/git_repos/PlacementPortal/portal_image:/portal_image
