@@ -4,20 +4,22 @@ services:
   db:
     image: mongo
     restart: "always"
+    container_name : portal_db
     ports:
       - 27017:27017
     volumes:
-      - /home/ayush/git_repos/PlacementPortal/data_portal:/data/db
+      - /Users/ayush.sharma/Workspace/personal/PlacementPortal/data_portal:/data/db
 
   web_server:
     build:
       context: ./portal_image
     image: portal_server:1.0
+    container_name : portal_server
     depends_on:
       - db
     restart: "always"
     ports:
       - 8000:8000
     volumes:
-      - /home/ayush/git_repos/PlacementPortal/portal:/portal
-      - /home/ayush/git_repos/PlacementPortal/portal_image:/portal_image
+      - /Users/ayush.sharma/Workspace/personal/PlacementPortal/portal:/portal
+      - /Users/ayush.sharma/Workspace/personal/PlacementPortal/portal_image:/portal_image

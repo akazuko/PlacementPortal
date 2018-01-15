@@ -1,0 +1,60 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+<nav>
+    <div class="nav-wrapper white">
+        <div class="container">
+            <a href="#" class="brand-logo grey-text text-darken-4">Placement Portal</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="signup.html"><span class="grey-text text-darken-4">Sign Up</span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="grey darken-4">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col s6">
+
+        </div>
+
+        <div class="col s6">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="username" type="text" class="validate">
+                    <label for="username">User Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <a class="waves-effect waves-light btn grey lighten-1 grey-text text-darken-4">Login</a>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+
+<footer class="page-footer white">
+    <div class="footer-copyright white">
+        <div class="container">
+            <span class="grey-text text-darken-4">© 2018 Made with love by akazuko</span>
+            <a class="grey-text text-darken-4 right" href="https://github.com/AkaZuko/PlacementPortal">Github</a>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
