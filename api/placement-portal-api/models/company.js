@@ -13,3 +13,5 @@ var CompanySchema = new Schema({
 
 // Compile model from schema
 var CompaniesModel = mongoose.model('Companies',  CompanySchema);
+
+module.exports = CompaniesModel;
