@@ -1,4 +1,0 @@
-{
-  "host": "portal_db",
-  "db": "portal"
-}
