@@ -9,14 +9,16 @@ Ext.application({
     extend: 'PlacementPortalApp.Application',
 
     requires: [
-        'PlacementPortalApp.view.main.Main'
+        'PlacementPortalApp.view.main.Main',
+        'PlacementPortalApp.view.login.Login'
     ],
 
     // The name of the initial view to create. With the classic toolkit this class
     // will gain a "viewport" plugin if it does not extend Ext.Viewport. With the
     // modern toolkit, the main view will be added to the Viewport.
     //
-    mainView: 'PlacementPortalApp.view.main.Main'
+    // mainView: 'PlacementPortalApp.view.main.Main'
+    mainView: 'PlacementPortalApp.view.login.Login'
 
     //-------------------------------------------------------------------------
     // Most customizations should be made to PlacementPortalApp.Application. If you need to

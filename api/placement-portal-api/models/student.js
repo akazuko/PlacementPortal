@@ -12,6 +12,6 @@ var StudentSchema = new Schema({
 });
 
 // Compile model from schema
-var StudentsModel = mongoose.model('Students',  StudentSchema);
+var StudentModel = mongoose.model('Students',  StudentSchema);
 
-module.exports = StudentsModel;
+module.exports = StudentModel;
